@@ -5,5 +5,5 @@ export const postService = {
 };
 
 function getNewPosts() {
-  return axios.get(`http://localhost:3000/newest`);
+  return axios.get(`http://localhost:3000/v1/popular_stories`);
 }

@@ -11,9 +11,9 @@ import styles from "./styles";
 
 import menuslidernew from "../../../assets/menuslidernew.png";
 import CategoryScroll from "./CategoryScroll";
-import Tab from "../../components/Tab";
-import { FloatingAction } from "react-native-floating-action";
-import SettingScreen from "../Settings/SettingScreen";
+import TopTab from "../../components/TopTab";
+import NewTab from "../../components/NewTab";
+
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -87,7 +87,9 @@ class HomeScreen extends Component {
         {this.renderTabView()}
 
         <View style={styles.postsView}>
-          <Tab type={currentTab} />
+          {currentTab === "top" ? <TopTab type={currentTab} /> : null}
+          {currentTab === "new" ? <NewTab type={currentTab} /> : null}
+
         </View>
       </ScrollView>
     );

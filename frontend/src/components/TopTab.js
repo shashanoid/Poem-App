@@ -9,8 +9,9 @@ import {
 import { postService } from "../_services";
 import autoBind from "auto-bind";
 import LoadingScreen from "../screens/Loading/LoadingScreen";
+import PoemCard from "../components/PoemCard";
 
-export default class Tab extends React.PureComponent {
+export default class TopTab extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -19,6 +20,7 @@ export default class Tab extends React.PureComponent {
       dataSource: Array(50)
         .fill()
         .map((_, index) => ({ id: index })),
+      posts: [],
     };
 
     autoBind(this);
@@ -29,16 +31,11 @@ export default class Tab extends React.PureComponent {
     this.fetchPosts(type);
   }
 
-  async componentDidUpdate() {
-    let { type } = this.props;
-    this.fetchPosts(type);
-  }
-
   async fetchPosts(type) {
     await postService.getNewPosts().then(
       (response) => {
-        console.log(response.data);
-        this.setState({ isLoading: false });
+        let data = response.data;
+        this.setState({ isLoading: false, posts: response.data });
       },
       (error) => {
         console.log(error);
@@ -58,11 +55,11 @@ export default class Tab extends React.PureComponent {
     return (
       <FlatList
         style={styles.wrapper}
-        data={this.state.dataSource}
+        data={this.state.posts}
         renderItem={this._renderRow}
         keyExtractor={(item) => item.id.toString()}
         // tabRoute={this.props.route.key}
-        renderItem={({ item }) => <View style={styles.item} />}
+        renderItem={({ item }) => <PoemCard poemData={item} />}
       />
     );
   }
