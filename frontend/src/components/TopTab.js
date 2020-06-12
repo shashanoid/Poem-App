@@ -32,7 +32,7 @@ export default class TopTab extends React.PureComponent {
   }
 
   async fetchPosts(type) {
-    await postService.getNewPosts().then(
+    await postService.getTopPosts().then(
       (response) => {
         let data = response.data;
         this.setState({ isLoading: false, posts: response.data });

@@ -9,13 +9,25 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import HomeScreen from "../screens/Home/HomeScreen";
 import CreateScreen from "../screens/Create/CreateScreen";
 import SettingScreen from "../screens/Settings/SettingScreen";
+import ProfileScreen from "../screens/User/ProfileScreen";
+import SignInScreen from "../screens/User/SignInScreen";
+import SignUpScreen from "../screens/User/SignUpScreen";
 import CategoryScreen from "../screens/Category/CategoryScreen";
+
+// Redux
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import rootReducer from "../_reducers/rootReducer";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
+// const store = createStore(rootReducer);
 
-function MyStack() {
+const store = createStore(rootReducer);
+
+function HomeStack() {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -26,6 +38,20 @@ function MyStack() {
       <Stack.Screen name="Category" component={CategoryScreen} />
     </Stack.Navigator>
   );
+}
+
+function ProfileStack(){
+  return(
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="SignUp" component={SignUpScreen} />
+      <Stack.Screen name="SignIn" component={SignInScreen} />
+    </Stack.Navigator>
+  )
 }
 
 function HomeTabs() {
@@ -40,10 +66,12 @@ function HomeTabs() {
     >
       <Tab.Screen
         name="Home"
-        component={MyStack}
+        component={HomeStack}
         options={{
           tabBarLabel: "Home",
-          tabBarIcon: ({ tintColor }) => <Icon color="white" name="list" size={16} />,
+          tabBarIcon: ({ tintColor }) => (
+            <Icon color="white" name="list" size={16} />
+          ),
         }}
       />
       <Tab.Screen
@@ -58,7 +86,7 @@ function HomeTabs() {
       />
       <Tab.Screen
         name="Profile"
-        component={CreateScreen}
+        component={ProfileStack}
         options={{
           tabBarLabel: "Profile",
           tabBarIcon: ({ tintColor }) => (
@@ -72,12 +100,14 @@ function HomeTabs() {
 
 function MyDrawer() {
   return (
-    <NavigationContainer>
-      <Drawer.Navigator drawerStyle={{ width: "70%" }}>
-        <Drawer.Screen name={"HomeTabs"} component={HomeTabs} />
-        <Drawer.Screen name={"Home"} component={HomeScreen} />
-      </Drawer.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Drawer.Navigator drawerStyle={{ width: "70%" }}>
+          <Drawer.Screen name={"HomeTabs"} component={HomeTabs} />
+          <Drawer.Screen name={"Home"} component={HomeScreen} />
+        </Drawer.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

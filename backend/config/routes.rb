@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   namespace :v1, defaults: {format: :json} do
     resource :login, only: [:create], controller: :sessions
     resources :users, only: [:create]
-    resources :stories, only: [:index, :show, :create]
+    resources :stories, only: [:index, :show, :create, :get_popular_stories]
     resources :votes, only: [:create]
     resources :comments, only: [:index, :show, :create]
 
@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     post 'downvote_story', to: "stories#downvote_story"
 
     get 'popular_stories', to: "stories#get_popular_stories"
+    get 'new_stories', to: "stories#newest"
   end
 
 end

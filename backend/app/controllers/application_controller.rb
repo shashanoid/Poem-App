@@ -37,11 +37,7 @@ class ApplicationController < ActionController::Base
 
   # Render 401
   def authentication_error
-    action = params[:action]
-    unless action == "get_popular_stories"
-      # User's token is either invalid or not in the right format
-      render json: {error: t('unauthorized')}, status: 401  # Authentication timeout
-    end
+    render json: {error: t('unauthorized')}, status: 401  # Authentication timeout
   end
 
 end
