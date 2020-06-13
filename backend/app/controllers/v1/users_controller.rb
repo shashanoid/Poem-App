@@ -22,14 +22,22 @@ module V1
           render json: {message: 'Details updated successfully'}, status: 200
       else
         render json: { error: @user.errors.full_messages }, status: :unprocessable_entity
-      end
-      
+      end  
+    end
+
+    def get_user_info
+      @user = User.find(current_user.id)
+      render json: {user: @user}, status: 200
     end
 
     private
 
     def user_params
       params.require(:user).permit(:email, :username, :password, :password_confirmation)
+    end
+
+    def user_info_params
+      params.require(:user).permit(:token)
     end
   end
 end

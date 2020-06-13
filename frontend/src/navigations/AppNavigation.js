@@ -40,18 +40,19 @@ function HomeStack() {
   );
 }
 
-function ProfileStack(){
-  return(
+function ProfileStack() {
+  return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
+        gestureEnabled: false,
       }}
     >
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />
       <Stack.Screen name="SignIn" component={SignInScreen} />
     </Stack.Navigator>
-  )
+  );
 }
 
 function HomeTabs() {

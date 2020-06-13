@@ -14,6 +14,12 @@ import CategoryScroll from "./CategoryScroll";
 import TopTab from "../../components/TopTab";
 import NewTab from "../../components/NewTab";
 
+//Redux utils
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { userDataAction } from "../../_actions/userDataAction";
+import { userService } from "../../_services";
+import * as SecureStore from "expo-secure-store";
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -23,6 +29,18 @@ class HomeScreen extends Component {
       isTopSelected: true,
       isNewSelected: false,
     };
+  }
+
+  async componentDidMount() {
+    try {
+      let token = await SecureStore.getItemAsync("token");
+      if (token) {
+        let userData = await userService.getUserInfo(token);
+        await this.props.userDataAction(userData);
+      }
+    } catch (error) {
+      return;
+    }
   }
 
   handleTabChange(tabType) {
@@ -89,11 +107,19 @@ class HomeScreen extends Component {
         <View style={styles.postsView}>
           {currentTab === "top" ? <TopTab type={currentTab} /> : null}
           {currentTab === "new" ? <NewTab type={currentTab} /> : null}
-
         </View>
       </ScrollView>
     );
   }
 }
 
-export default HomeScreen;
+// export default SignIn;
+const mapStateToProps = (state) => {
+  const { userData } = state;
+  return { userData };
+};
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ userDataAction }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

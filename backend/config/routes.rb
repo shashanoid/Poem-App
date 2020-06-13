@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
     #User routes
     patch 'users', to: "users#update"
+    get 'user_info', to: "users#get_user_info"
 
     # Story routes
     delete 'stories', to: "stories#destroy"

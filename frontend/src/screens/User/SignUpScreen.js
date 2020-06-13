@@ -47,7 +47,9 @@ class SignUpScreen extends Component {
       );
     }
 
-    await this.props.signUpAction(signUpResponse.access_token);
+    let token = signUpResponse.access_token;
+    await this.props.signUpAction(token);
+    SecureStore.setItemAsync("token", token);
   }
 
   render() {

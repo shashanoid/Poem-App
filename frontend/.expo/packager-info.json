@@ -2,9 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 54681,
+  "packagerPid": 16006,
   "expoServerNgrokUrl": "https://af-4ng.anonymous.frontend.exp.direct",
   "packagerNgrokUrl": "https://packager.af-4ng.anonymous.frontend.exp.direct",
-  "ngrokPid": 54692,
+  "ngrokPid": 16017,
   "webpackServerPort": null
 }

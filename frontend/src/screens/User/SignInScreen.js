@@ -7,10 +7,11 @@ import {
   FlatList,
   TextInput,
   Button,
-  Alert
+  Alert,
 } from "react-native";
 import Constants from "expo-constants";
 import Icon from "react-native-vector-icons/Ionicons";
+import * as SecureStore from "expo-secure-store";
 
 //Redux utils
 import { bindActionCreators } from "redux";
@@ -47,7 +48,10 @@ class SignInScreen extends Component {
       );
     }
 
-    await this.props.signInAction(signInResponse.access_token);
+    let token = signInResponse.access_token;
+    await this.props.signInAction(token);
+    await SecureStore.setItemAsync("token", token);
+    this.props.navigation.push('Profile')
   }
 
   render() {
