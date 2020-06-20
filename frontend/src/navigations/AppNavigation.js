@@ -6,6 +6,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/FontAwesome";
 
+import { StackNavigator } from "react-navigation"; // 1.0.0-beta.27
+
 import HomeScreen from "../screens/Home/HomeScreen";
 import CreateScreen from "../screens/Create/CreateScreen";
 import SettingScreen from "../screens/Settings/SettingScreen";
@@ -13,6 +15,7 @@ import ProfileScreen from "../screens/User/ProfileScreen";
 import SignInScreen from "../screens/User/SignInScreen";
 import SignUpScreen from "../screens/User/SignUpScreen";
 import CategoryScreen from "../screens/Category/CategoryScreen";
+import ReviewScreen from "../screens/Create/ReviewScreen";
 
 // Redux
 import { Provider } from "react-redux";
@@ -55,6 +58,19 @@ function ProfileStack() {
   );
 }
 
+function createScreenStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="Create" component={CreateScreen} />
+      <Stack.Screen name="Review" component={ReviewScreen} />
+    </Stack.Navigator>
+  );
+}
+
 function HomeTabs() {
   return (
     <Tab.Navigator
@@ -77,7 +93,7 @@ function HomeTabs() {
       />
       <Tab.Screen
         name="Create"
-        component={CreateScreen}
+        component={createScreenStack}
         options={{
           tabBarLabel: "Create",
           tabBarIcon: ({ tintColor }) => (

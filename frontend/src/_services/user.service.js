@@ -18,7 +18,6 @@ async function getUserInfo(token) {
     let data = res.data.user;
     return data;
   } catch (error) {
-    debugger;
     return error.response;
   }
 }

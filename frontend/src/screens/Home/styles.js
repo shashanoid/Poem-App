@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   tabItem: {
-    borderBottomWidth: 2.5,
-    borderBottomColor: "#40c2ec",
+    borderBottomWidth: 2,
+    borderBottomColor: "#29D3BF",
     paddingBottom: 4,
     alignItems: "center",
     paddingBottom: 8,

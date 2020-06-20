@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_12_052127) do
+ActiveRecord::Schema.define(version: 2020_06_14_161313) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 2020_05_12_052127) do
     t.string "post_type", default: "default"
     t.integer "comments_count", default: 0
     t.integer "votes_count", default: 0
+    t.string "image"
     t.index ["user_id"], name: "index_stories_on_user_id"
   end
 

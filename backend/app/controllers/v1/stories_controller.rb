@@ -15,10 +15,15 @@ module V1
       render json: @story, serializer: StorySerializer
     end
 
+    def unescp(mystr)
+      mystr.gsub('="', "='").gsub(';"', ";'")
+    end
+
     # POST /v1/stories
     # Add a new story
     def create
       @story = Story.new(story_params)
+      @story.body = unescp(params[:body])
 
       if @story.save
         render json: @story, serializer: StorySerializer
@@ -94,7 +99,7 @@ module V1
     
     private
     def story_params
-      params.require(:story).permit(:title, :body).merge(user: current_user)
+      params.permit(:title, :body, :image).merge(user: current_user)
     end
 
   end

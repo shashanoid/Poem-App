@@ -17,6 +17,7 @@ import CNRichTextEditor, {
   CNToolbar,
   getDefaultStyles,
   convertToObject,
+  convertToHtmlString,
 } from "react-native-cn-richtext-editor";
 import styles from "./styles";
 
@@ -30,13 +31,17 @@ import {
   renderers,
 } from "react-native-popup-menu";
 import { TextInput } from "react-native-gesture-handler";
-import { Button } from "native-base";
+import { postService } from "../../_services";
 
 const { SlideInMenu } = renderers;
 
 const IS_IOS = Platform.OS === "ios";
 const { width, height } = Dimensions.get("window");
 const defaultStyles = getDefaultStyles();
+
+//Redux utils
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 
 class CreateScreen extends Component {
   constructor(props) {
@@ -70,7 +75,7 @@ class CreateScreen extends Component {
         "<div><p><span></span></p></div>",
         this.customStyles
       ),
-      title: null,
+      poemTitle: "",
     };
 
     this.editor = null;
@@ -105,7 +110,7 @@ class CreateScreen extends Component {
 
   onTitleChange = (titleText) => {
     this.setState({
-      title: titleText,
+      poemTitle: titleText,
     });
   };
 
@@ -312,6 +317,20 @@ class CreateScreen extends Component {
     );
   }
 
+  async handlePublish() {
+    let { value, poemTitle } = this.state;
+    let { userData } = this.props;
+
+    let userToken = userData.userData.access_token;
+    let poemtext = convertToHtmlString(value);
+
+    this.props.navigation.navigate("Review", {
+      poemTitle: poemTitle,
+      poemText: poemtext,
+      userToken: userToken,
+    });
+  }
+
   render() {
     return (
       <KeyboardAvoidingView
@@ -338,7 +357,7 @@ class CreateScreen extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.nextButton}
-            onPress={() => console.log(this.state.title)}
+            onPress={() => this.handlePublish()}
           >
             <Text
               style={{
@@ -359,6 +378,7 @@ class CreateScreen extends Component {
                 <TextInput
                   placeholder={"Title"}
                   style={styles.titleText}
+                  value={this.state.poemTitle}
                   onChangeText={(text) => this.onTitleChange(text)}
                 />
               </View>
@@ -538,4 +558,12 @@ const highlightOptionsStyles = {
   // },
 };
 
-export default CreateScreen;
+// export default SignIn;
+const mapStateToProps = (state) => {
+  const { userData } = state;
+  return { userData };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateScreen);
